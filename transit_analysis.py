@@ -78,6 +78,8 @@ def plot_hist(counts_dict, length=None, label='', ax=None, offset=None, width=1)
         length = counts.sum()
     counts = counts / length * 100
 
+    responses, counts= (np.array(t) for t in zip(*sorted(zip(responses, counts))))
+
     indexes = np.arange(len(responses), dtype='float64')
     if offset is not None:
         indexes += offset
@@ -97,10 +99,11 @@ if __name__ == '__main__':
     for q in list(GSAS_DATA):
         if q in ['Q4_11_TEXT', 'Q5', 'Q6', 'Q6_5_TEXT', 'Q7A', 'Q17', 'Q7B_3_TEXT', 'Q8', 'Q9_5_TEXT', 'Q12A', 'Q13A', 'Q8 - Topics']:
             continue
-        fig, ax = plt.subplots(figsize=[20, 20])
+        fig, ax = plt.subplots(figsize=[15, 15])
         hist_from_column(GPSS_DATA, q, label='GPSS', ax=ax, offset=0.0, width=0.3)
         hist_from_column(GSAS_DATA, q, label='GSAS', ax=ax, offset=0.3, width=0.3)
         hist_from_diff(GPSS_DATA, GSAS_DATA, q, label='PROF', ax=ax, offset=0.6, width=0.3)
+        print(GPSS_DATA[q][0])
         ax.set_title(GPSS_DATA[q][0])
         ax.legend()
         fig.tight_layout()
